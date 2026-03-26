@@ -13,7 +13,7 @@
     <header class="app-header">
       <div>
         <h1>Kick-Stop</h1>
-        <p>Инструмент фиксации нарушения парковки самоката</p>
+        <p>Фиксация нарушения парковки самоката</p>
       </div>
       <button id="installButton" class="ghost" type="button" hidden>Установить</button>
     </header>
@@ -25,7 +25,6 @@
           <video id="video" autoplay playsinline></video>
           <canvas id="canvas" hidden></canvas>
           <div class="camera-actions">
-            <button id="startCamera" type="button">Включить камеру</button>
             <button id="takePhoto" type="button" class="primary" disabled>Сделать фото</button>
             <label class="secondary">
               Добавить из галереи
@@ -49,7 +48,6 @@
           </label>
         </div>
         <div class="metadata">
-          <button id="getLocation" type="button" class="secondary">Получить координаты</button>
           <div class="metadata-grid">
             <div>
               <span>Время</span>
@@ -76,7 +74,6 @@
         <h2>Сообщение</h2>
         <textarea id="messagePreview" rows="8" readonly></textarea>
         <div class="actions">
-          <button id="buildMessage" type="button">Сформировать сообщение</button>
           <button id="sendButton" type="button" class="primary">Отправить</button>
         </div>
         <p class="hint">

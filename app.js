@@ -1,5 +1,4 @@
 const installButton = document.getElementById("installButton");
-const startCameraButton = document.getElementById("startCamera");
 const takePhotoButton = document.getElementById("takePhoto");
 const fileInput = document.getElementById("fileInput");
 const video = document.getElementById("video");
@@ -10,10 +9,8 @@ const notesInput = document.getElementById("notesInput");
 const timeValue = document.getElementById("timeValue");
 const coordsValue = document.getElementById("coordsValue");
 const addressValue = document.getElementById("addressValue");
-const getLocationButton = document.getElementById("getLocation");
 const operatorRadios = document.getElementById("operatorRadios");
 const messagePreview = document.getElementById("messagePreview");
-const buildMessageButton = document.getElementById("buildMessage");
 const sendButton = document.getElementById("sendButton");
 
 const operators = [
@@ -178,6 +175,7 @@ function updateLocation() {
       const address = await reverseGeocode(latitude, longitude);
       state.address = address;
       addressValue.textContent = address || "Адрес не найден";
+      buildMessage();
     },
     () => {
       alert("Не удалось получить координаты. Проверьте разрешения.");
@@ -207,7 +205,7 @@ function buildMessage() {
     `Адрес: ${address}`,
     `Координаты: ${coords}`,
     `Время: ${time}`,
-    `Номер самоката/госномер: ${plate || "(не указан)"}`
+    `Номер самоката/госномер: ${plate}`
   ];
 
   if (notes) {
@@ -221,7 +219,7 @@ function buildMessage() {
 
 async function sendReport() {
   const message = buildMessage();
-  const subject = "Нарушение парковки самоката";
+  const subject = "Жалоба на парковку самоката";
   const operatorEmail = getSelectedOperator();
 
   if (navigator.canShare && navigator.share && photos.length) {
@@ -245,12 +243,12 @@ async function sendReport() {
 }
 
 function setupEventListeners() {
-  startCameraButton.addEventListener("click", startCamera);
   takePhotoButton.addEventListener("click", capturePhoto);
   fileInput.addEventListener("change", handleFileInput);
-  getLocationButton.addEventListener("click", updateLocation);
-  buildMessageButton.addEventListener("click", buildMessage);
   sendButton.addEventListener("click", sendReport);
+  plateInput.addEventListener("input", buildMessage);
+  notesInput.addEventListener("input", buildMessage);
+  operatorRadios.addEventListener("change", buildMessage);
 
   window.addEventListener("beforeunload", stopCamera);
 }
@@ -260,3 +258,6 @@ renderOperators();
 setupEventListeners();
 setupInstallPrompt();
 registerServiceWorker();
+startCamera();
+updateLocation();
+buildMessage();
