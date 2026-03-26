@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1f2937" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="icon.svg" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Kick-Stop — фиксация нарушения парковки</title>
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <h1>Kick-Stop</h1>
+        <p>Инструмент фиксации нарушения парковки самоката</p>
+      </div>
+      <button id="installButton" class="ghost" type="button" hidden>Установить</button>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <h2>Фотофиксация</h2>
+        <div class="camera">
+          <video id="video" autoplay playsinline></video>
+          <canvas id="canvas" hidden></canvas>
+          <div class="camera-actions">
+            <button id="startCamera" type="button">Включить камеру</button>
+            <button id="takePhoto" type="button" class="primary" disabled>Сделать фото</button>
+            <label class="secondary">
+              Добавить из галереи
+              <input id="fileInput" type="file" accept="image/*" capture="environment" multiple hidden />
+            </label>
+          </div>
+        </div>
+        <div id="photos" class="photos"></div>
+      </section>
+
+      <section class="card">
+        <h2>Данные нарушения</h2>
+        <div class="grid">
+          <label>
+            Номер самоката / госномер
+            <input id="plateInput" type="text" placeholder="Например: 1234 / A123BC" />
+          </label>
+          <label>
+            Дополнительный текст
+            <textarea id="notesInput" rows="3" placeholder="Добавьте комментарии или описание"></textarea>
+          </label>
+        </div>
+        <div class="metadata">
+          <button id="getLocation" type="button" class="secondary">Получить координаты</button>
+          <div class="metadata-grid">
+            <div>
+              <span>Время</span>
+              <strong id="timeValue">—</strong>
+            </div>
+            <div>
+              <span>Координаты</span>
+              <strong id="coordsValue">—</strong>
+            </div>
+            <div>
+              <span>Адрес</span>
+              <strong id="addressValue">—</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Куда отправить</h2>
+        <div class="radios" id="operatorRadios"></div>
+      </section>
+
+      <section class="card">
+        <h2>Сообщение</h2>
+        <textarea id="messagePreview" rows="8" readonly></textarea>
+        <div class="actions">
+          <button id="buildMessage" type="button">Сформировать сообщение</button>
+          <button id="sendButton" type="button" class="primary">Отправить</button>
+        </div>
+        <p class="hint">
+          При отправке будет использован Web Share (если доступен) для вложений. Иначе откроется почтовый клиент с текстом.
+        </p>
+      </section>
+    </main>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
