@@ -12,6 +12,7 @@ const addressValue = document.getElementById("addressValue");
 const operatorRadios = document.getElementById("operatorRadios");
 const messagePreview = document.getElementById("messagePreview");
 const sendButton = document.getElementById("sendButton");
+const toast = document.getElementById("toast");
 
 const operators = [
   { label: "Whoosh", email: "support@whoosh.bike" },
@@ -217,10 +218,35 @@ function buildMessage() {
   return messagePreview.value;
 }
 
+function showToast(message) {
+  if (!toast) return;
+  toast.textContent = message;
+  toast.hidden = false;
+  clearTimeout(toast._timeoutId);
+  toast._timeoutId = setTimeout(() => {
+    toast.hidden = true;
+  }, 3500);
+}
+
+async function copyRecipientToClipboard(email) {
+  if (!navigator.clipboard) {
+    showToast("Не удалось скопировать email: нет доступа к буферу.");
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(email);
+    showToast(`Email скопирован: ${email}`);
+  } catch (error) {
+    showToast("Не удалось скопировать email. Проверьте разрешения.");
+  }
+}
+
 async function sendReport() {
   const message = buildMessage();
   const subject = "Жалоба на парковку самоката";
   const operatorEmail = getSelectedOperator();
+
+  copyRecipientToClipboard(operatorEmail);
 
   if (navigator.canShare && navigator.share && photos.length) {
     try {
